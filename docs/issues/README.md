@@ -1,11 +1,11 @@
 # pyseis design issues
 
-Working set of design issues for the agent-friendly redesign of pyseis, now tracked as GitHub issues #79–#117. Background: [`../agent-forward-software-research.md`](../agent-forward-software-research.md) and [`../agent-friendly-recommendations.md`](../agent-friendly-recommendations.md).
+Working set of design issues for the agent-friendly redesign of pyseis, now tracked as GitHub issues #79–#120. Background: [`../agent-forward-software-research.md`](../agent-forward-software-research.md) and [`../agent-friendly-recommendations.md`](../agent-friendly-recommendations.md).
 
 **How to use this:**
 
 - Design decisions were made in the 2026-11-11 sessions; see the register below. Each decision is **Open**, **Proposed**, **Agreed** (including *Settled* by another decision) or **Deferred**.
-- **Build** in the phase order below. Hotfixes (H01–H14) land on the current code before any redesign work.
+- **Build** in the milestone order below. Hotfixes (H01–H14) are not patched on the current code. Each becomes an acceptance test on the rebuilt code (D004.1, revised 2026-11-11).
 - The issue text now lives on GitHub. This page is a snapshot of the register as of 2026-11-11; when a decision changes, update the GitHub issue and this table.
 
 ## Issues
@@ -16,7 +16,7 @@ Working set of design issues for the agent-friendly redesign of pyseis, now trac
 | [001](https://github.com/stuliveshere/pyseis/issues/80) | Define dataset metadata contract, canonical header vocabulary, units and CRS | Agreed (2026-11-11 voice session); D001.9 deferred to F04 | 000 |
 | [002](https://github.com/stuliveshere/pyseis/issues/81) | Parallel streaming ingest in input order | Agreed (2026-11-11 voice session) | 000 (layout, keys), 001 (contract, vocabulary), 005 (errors, logs), 015 (read/flow/write model) |
 | [003](https://github.com/stuliveshere/pyseis/issues/82) | Establish a clean test baseline (tests on demand) | Agreed (2026-11-11 voice session) | none (do first) |
-| [004](https://github.com/stuliveshere/pyseis/issues/83) | Data-correctness hotfixes on the current code (umbrella) | Agreed (2026-11-11 voice session) | 003 (test baseline) |
+| [004](https://github.com/stuliveshere/pyseis/issues/83) | Data-correctness hotfixes on the current code (umbrella) | Agreed (2026-11-11 voice session); D004.1 revised in milestone planning | 003 (test baseline) |
 | [005](https://github.com/stuliveshere/pyseis/issues/84) | Errors, warnings, provenance and logs | Agreed (2026-11-11 voice session) | none. Lands before 001/002 implementation so new code uses it. |
 | [006](https://github.com/stuliveshere/pyseis/issues/85) | `SeismicDataset`: manifest-backed, streaming dataset API | Agreed (2026-11-11 voice session) | 000, 001, 002, 005, 015, 016 |
 | [007](https://github.com/stuliveshere/pyseis/issues/86) | Exporters for multi-part datasets (SEG-Y, SU, SEG-D, GeoPackage) | Agreed (2026-11-11 voice session) | 001, 006, 008 |
@@ -32,49 +32,69 @@ Working set of design issues for the agent-friendly redesign of pyseis, now trac
 | [017](https://github.com/stuliveshere/pyseis/issues/96) | Cleanup and retention | Agreed (2026-11-11 voice session) | 016 (versions) |
 | [018](https://github.com/stuliveshere/pyseis/issues/97) | Projects, pack and archive | Agreed (2026-11-11 voice session) | 000, 016 |
 | [019](https://github.com/stuliveshere/pyseis/issues/98) | Flows and execution (modules, flow files, Dask) | Agreed (2026-11-11 voice session) | 005, 006, 015 |
-| [H01](https://github.com/stuliveshere/pyseis/issues/104) | H01: Sample interval silently defaults to 2 ms (dataset and writer) | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H02](https://github.com/stuliveshere/pyseis/issues/105) | H02: SEG-D sample interval defaults to 2000 µs when `base_scan_interval` is 0 | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H03](https://github.com/stuliveshere/pyseis/issues/106) | H03: SEG-Y exporter guesses sample-interval units and falls back to 4 ms | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H04](https://github.com/stuliveshere/pyseis/issues/107) | H04: SEG-D exporter falls back to 2 ms | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H05](https://github.com/stuliveshere/pyseis/issues/108) | H05: Viewer falls back to 4 ms and defaults `group_by` to a non-existent column | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H06](https://github.com/stuliveshere/pyseis/issues/109) | H06: SEG-D reader silently drops aux channel set 1 | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H07](https://github.com/stuliveshere/pyseis/issues/110) | H07: SEG-Y reader silently zero-pads short traces | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H08](https://github.com/stuliveshere/pyseis/issues/111) | H08: Unknown or misspelled `custom_mappings` keys are silently dropped | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H09](https://github.com/stuliveshere/pyseis/issues/112) | H09: Remove ignored `header_def` and `mapping_path` arguments from `SEGYExporter` | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H10](https://github.com/stuliveshere/pyseis/issues/113) | H10: Warnings printed to stdout | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H11](https://github.com/stuliveshere/pyseis/issues/114) | H11: Docs use non-existent columns `source_id` and `cdp_id` | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H12](https://github.com/stuliveshere/pyseis/issues/115) | H12: Docs reference non-existent `to_parquet_buffer()` | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H13](https://github.com/stuliveshere/pyseis/issues/116) | H13: Docs claim `filter()` uses predicate pushdown | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
-| [H14](https://github.com/stuliveshere/pyseis/issues/117) | H14: Unused `chunk_size` parameter on importers | Agreed (hotfix on the current code, before any redesign work) | 003 (test baseline) |
+| [020](https://github.com/stuliveshere/pyseis/issues/118) | Storage trial: Parquet with own manifest, Lance or Delta Lake | Open (trial not yet run) | 003 (test baseline). Blocks 000, 006, 010, 016, 017 |
+| [021](https://github.com/stuliveshere/pyseis/issues/119) | Synthetic source and dataset copy (proving flows without format code) | Agreed (2026-11-11 milestone planning) | 006, 015, 019 |
+| [022](https://github.com/stuliveshere/pyseis/issues/120) | Processing module library: which modules, in what order, how each is proven | Open | 019 |
+| [H01](https://github.com/stuliveshere/pyseis/issues/104) | H01: Sample interval silently defaults to 2 ms (dataset and writer) | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H02](https://github.com/stuliveshere/pyseis/issues/105) | H02: SEG-D sample interval defaults to 2000 µs when `base_scan_interval` is 0 | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H03](https://github.com/stuliveshere/pyseis/issues/106) | H03: SEG-Y exporter guesses sample-interval units and falls back to 4 ms | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H04](https://github.com/stuliveshere/pyseis/issues/107) | H04: SEG-D exporter falls back to 2 ms | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H05](https://github.com/stuliveshere/pyseis/issues/108) | H05: Viewer falls back to 4 ms and defaults `group_by` to a non-existent column | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H06](https://github.com/stuliveshere/pyseis/issues/109) | H06: SEG-D reader silently drops aux channel set 1 | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H07](https://github.com/stuliveshere/pyseis/issues/110) | H07: SEG-Y reader silently zero-pads short traces | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H08](https://github.com/stuliveshere/pyseis/issues/111) | H08: Unknown or misspelled `custom_mappings` keys are silently dropped | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H09](https://github.com/stuliveshere/pyseis/issues/112) | H09: Remove ignored `header_def` and `mapping_path` arguments from `SEGYExporter` | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H10](https://github.com/stuliveshere/pyseis/issues/113) | H10: Warnings printed to stdout | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H11](https://github.com/stuliveshere/pyseis/issues/114) | H11: Docs use non-existent columns `source_id` and `cdp_id` | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H12](https://github.com/stuliveshere/pyseis/issues/115) | H12: Docs reference non-existent `to_parquet_buffer()` | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H13](https://github.com/stuliveshere/pyseis/issues/116) | H13: Docs claim `filter()` uses predicate pushdown | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
+| [H14](https://github.com/stuliveshere/pyseis/issues/117) | H14: Unused `chunk_size` parameter on importers | Agreed (acceptance test on the rebuilt code; D004.1 revised 2026-11-11) | 003 (test baseline) |
 | [F01](https://github.com/stuliveshere/pyseis/issues/99) | Feature request: Zarr/MDIO hypercubes for regularised, chunk-parallel processing | Deferred. Revisit when pyseis needs random-write parallel processing (MPI/Dask), time slices or volume work. | — |
 | [F02](https://github.com/stuliveshere/pyseis/issues/100) | Feature request: preview tables for fast viewing and agent visual QC | Deferred | 000, 006 |
 | [F03](https://github.com/stuliveshere/pyseis/issues/101) | Feature request: MCP server for pyseis | Deferred. Revisit when agents need pyseis from clients without shell access, or for shared, authenticated access to datasets. | — |
 | [F04](https://github.com/stuliveshere/pyseis/issues/102) | Feature request: custom/local CRS grids and reading the CRS from input files | Deferred | 001 |
 | [F05](https://github.com/stuliveshere/pyseis/issues/103) | Feature request: Dask on clusters | Deferred | 019 |
 
-## Build order
+## Milestones
 
-- **Phase 0: baseline:** 003
-- **Phase 1: hotfixes on the current code (before any redesign):** 004 (H01–H14)
-- **Phase 2: groundwork:** 005, 014, 013 (AGENTS.md terminology section only)
-- **Phase 3: contract:** 001
-- **Phase 4: format foundation:** 000, 016, 006, 015, 002
-- **Phase 5: using the format:** 019, 008, 007, 011, 012
-- **Phase 6: documentation:** 013 (full)
-- **Phase 7: dataset management:** 009, 010, 017, 018
-- **Deferred:** F01, F02, F03, F04, F05
+Set in milestone planning on 2026-11-11. They replace the earlier phase order. The order is: settle the dataset (including the choice of store), then the flow infrastructure on one machine, then the format readers and writers as flow modules. Each milestone is a GitHub milestone, and every issue below is assigned to one.
 
-Hotfixes come first because current behaviour produces wrong data. The CLI, `describe()` and exporters come after the format foundation so they're built once, on the new layout.
+| Milestone | Issues | Done when |
+|---|---|---|
+| [0. Baseline](https://github.com/stuliveshere/pyseis/milestone/1) | 003, 014 | The test suite runs clean on Python 3.12 from a fresh install, and one on-demand script fetches and checks the test corpus |
+| [1. Dataset](https://github.com/stuliveshere/pyseis/milestone/2) | 020, 000, 001, 005, 006, H01, #23 | The storage trial is decided, and `SeismicDataset` can write parts, commit, read by gather and report its own contents on real data |
+| [2. Flow infrastructure](https://github.com/stuliveshere/pyseis/milestone/3) | 015, 019, 021 | A flow file runs a synthetic source and a dataset copy through the serial, process-pool and Dask local executors with identical output, in input order, in bounded memory |
+| [3. First job: SEG-D ↔ SEG-Y (0.2.0)](https://github.com/stuliveshere/pyseis/milestone/4) | 002, 007, 011, 012, 013, 004 (H02–H14), #3, #15, #18, #19 | `pyseis run flow.yaml` converts SEG-D to SEG-Y and back on real field data, with an optional header edit. **Released as 0.2.0** |
+| [4. Working with stored data](https://github.com/stuliveshere/pyseis/milestone/5) | 008, 009, 010, 016, 017, 018 | Views, overlays, branches, compaction, cleanup and archive work on a real dataset |
+| [5. Processing modules](https://github.com/stuliveshere/pyseis/milestone/6) | 022 | To be defined by 022 |
+| [6. Community release](https://github.com/stuliveshere/pyseis/milestone/7) | #16, #28, #30, #31, #32 | Not scheduled |
+| No milestone (label `deferred`) | F01–F05, #7, #8, #21 | — |
+
+Milestones 0 to 2 are internal. The first release is 0.2.0 at the end of milestone 3.
+
+Some issues span more than one milestone. Each is assigned to the milestone where it closes:
+
+- **002** (ingest) closes in milestone 3. Its executor comes from 019 in milestone 2.
+- **012** (command line) closes in milestone 3 with `pyseis run` and the look-up commands. The management commands land with their features in milestone 4 (D012.3).
+- **013** (documentation) closes in milestone 3. The `AGENTS.md` terminology section can land at any time.
+- **014** (packaging) closes in milestone 0, apart from the version bump to 0.2.0 in milestone 3.
+- **016** (versions and branches) closes in milestone 4. Milestone 1 takes versions only as far as the chosen store provides them.
+
+The storage trial (020) comes first in milestone 1 because 000, 006, 010, 016 and 017 all change if Lance or Delta Lake is chosen. None of them is started until the trial is decided.
 
 ## Decision register
 
-Totals: Open 1, Proposed 0, Agreed 78, Deferred 3
+Totals: Open 5, Proposed 0, Agreed 78, Deferred 3
 
 ### Open: need a decision
 
 | ID | Issue | Question | Recommendation |
 |---|---|---|---|
 | D019.5 | [019](https://github.com/stuliveshere/pyseis/issues/98) | Flow file details (exact YAML schema, expression language for selects) | To be designed when implementing |
+| D020.1 | [020](https://github.com/stuliveshere/pyseis/issues/118) | Which store does the dataset sit on (Parquet with own manifest, Lance or Delta Lake)? | None until the trial has run |
+| D020.2 | [020](https://github.com/stuliveshere/pyseis/issues/118) | What counts as usable for the view case? | Set a time limit before measuring, so the result cannot move it |
+| D022.1 | [022](https://github.com/stuliveshere/pyseis/issues/120) | Which processing modules come first, and in what order? | Start from moveout and stack; the rest to be listed |
+| D022.2 | [022](https://github.com/stuliveshere/pyseis/issues/120) | How is each module proven correct? | To be decided |
 
 ### Proposed: confirm or change
 
@@ -90,7 +110,7 @@ _None._
 | D000.4 | [000](https://github.com/stuliveshere/pyseis/issues/79) | Physical layout is always generic (write/input order, `trace_id`). Parts follow input files (for SEG-D, one per gather) or trace ranges, with an optional `split_on` hint. Semantic sort order (primary/secondary/tertiary + `partition_by`) is nullable metadata, set at ingest or later, verified against headers, failing noisily on violation (§E) |  |
 | D000.5 | [000](https://github.com/stuliveshere/pyseis/issues/79) | Base headers immutable; edits as overlays keyed by `trace_id`. Overlays never change physical order |  |
 | D000.6 | [000](https://github.com/stuliveshere/pyseis/issues/79) | One data table for all traces including aux (flagged by `trace_code`). Record-length mismatch fails noisily, with options to pad to the longest record or to a set length (true length in `trace_num_samples`). Sample-interval mismatch fails noisily, with an option to resample to the finest interval (recorded in provenance). Appending longer data than the table fails clearly |  |
-| D000.7 | [000](https://github.com/stuliveshere/pyseis/issues/79) | Manifest: our own minimal `dataset.json`, designed to map onto Delta Lake/Iceberg/lakeFS later |  |
+| D000.7 | [000](https://github.com/stuliveshere/pyseis/issues/79) | Manifest: our own minimal `dataset.json`, designed to map onto Delta Lake/Iceberg/lakeFS later | Under review: the storage trial (020) confirms or replaces this |
 | D000.9 | [000](https://github.com/stuliveshere/pyseis/issues/79) | Default when no order given: generic keys plus suggestions; `sort_order="suggested"` as explicit opt-in; never inferred silently |  |
 | D000.10 | [000](https://github.com/stuliveshere/pyseis/issues/79) | Duplicate full key tuples fail by default (`allow_duplicates` to opt out) |  |
 | D000.11 | [000](https://github.com/stuliveshere/pyseis/issues/79) | Terminology: primary / secondary / tertiary keys with `partition_by` |  |
@@ -114,7 +134,7 @@ _None._
 | D002.7 | [002](https://github.com/stuliveshere/pyseis/issues/81) | Input discovery | Ingest only takes a file list (Python list, CLI paths or list file); separate helpers build lists from a directory, glob or recursively |
 | D003.1 | [003](https://github.com/stuliveshere/pyseis/issues/82) | CI | No automated CI runs; all tests are run on demand |
 | D003.2 | [003](https://github.com/stuliveshere/pyseis/issues/82) | Deleted corpus manifest and fetch script | Restore both from the last commit and verify they download the test data; goal is one on-demand script that fetches the corpus, checked against manifest checksums |
-| D004.1 | [004](https://github.com/stuliveshere/pyseis/issues/83) | Patch the current code before the redesign? | Yes. Each hotfix is its own small GitHub issue, and all are fixed on the current code before any redesign work starts |
+| D004.1 | [004](https://github.com/stuliveshere/pyseis/issues/83) | Patch the current code before the redesign? | No (revised 2026-11-11 in milestone planning; was: fix all on the current code first). Each hotfix is its own small GitHub issue and becomes an acceptance test on the rebuilt code. H01 closes in milestone 1, H02–H14 in milestone 3 |
 | D004.2 | [004](https://github.com/stuliveshere/pyseis/issues/83) | `SEGYExporter` `header_def`/`mapping_path` | Remove them, as their own hotfix (H09). Exporter mappings will come from the `headers.yaml` aliases (001, 007) |
 | D004.3 | [004](https://github.com/stuliveshere/pyseis/issues/83) | Aux channel sets in the current SEG-D reader | Include aux by default; flag the behaviour change in the changelog |
 | D005.1 | [005](https://github.com/stuliveshere/pyseis/issues/84) | Errors, warnings, provenance and logs | Four separate things (see Summary). Errors: returned result + logs, never provenance, nothing committed. Warnings: result + logs, and saved in the dataset when about the data. Provenance: manifest. Logs: per-run JSON lines linked by run ID. One structured result per operation. Partial-success skips recorded in provenance as warnings |

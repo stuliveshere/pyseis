@@ -37,10 +37,29 @@ Read field data, optionally edit headers, and write it out in another format, us
 ## Positions on open risks
 
 - **Views** are a convenience for light QC, such as lifting one line out of a volume. They are built as designed (issue 008), then tested. Alternatives are considered only if they prove too slow to use.
-- **Table format.** The design builds a minimal manifest over plain Parquet files (D000.7). Existing formats such as Lance and Delta Lake will be reviewed at a point set by the milestones.
+- **Table format.** The design builds a minimal manifest over plain Parquet files (D000.7). Lance and Delta Lake are tested against it in the storage trial (issue 020), which is the first work in milestone 1. No dataset code is written until the trial is decided.
 - **Licence.** AGPL-3.0 stays for now. The intent is to release openly once there is a viable product, and to earn through consulting, not by restricting the code.
+
+## Milestones
+
+Set on 2026-11-11. The order is dataset first, then flow infrastructure, then format modules. The issues in each milestone are listed in [`issues/README.md`](issues/README.md#milestones).
+
+| Milestone | What it settles |
+|---|---|
+| 0. Baseline | The current code tested and installable, so the storage trial can load real data |
+| 1. Dataset | The store (Parquet with our own manifest, Lance or Delta Lake), the metadata contract and the dataset class |
+| 2. Flow infrastructure | The read → flow → write model and the executor, with Dask on one machine |
+| 3. First job (**0.2.0**) | SEG-D and SEG-Y readers and writers as flow modules, header edit, `describe` and the command line |
+| 4. Working with stored data | Views, overlays, versions and branches, compaction, cleanup, projects and archive |
+| 5. Processing modules | The module library, starting with moveout and stack |
+| 6. Community release | PyPI, contributor process and licence review. Not scheduled |
+
+Milestones 0 to 2 are internal. The first release is 0.2.0, at the end of milestone 3, when the first job works on real field data.
+
+The hotfixes (H01–H14) are not patched on the current code, because the dataset core, readers and writers are all rebuilt. Each becomes an acceptance test on the new code.
 
 ## Still to settle
 
-- **Milestones and the size of 0.2.0.** The build order in the issue index lists phases, but no release boundaries.
-- **The processing module library.** Issue 019 defines how modules plug into flows. No issue yet says which modules exist, in what order, or how each is proven correct.
+- **The store.** Decided by the storage trial (issue 020).
+- **The processing module library.** Issue 019 defines how modules plug into flows. Issue 022 is opened to settle which modules exist, in what order, and how each is proven correct.
+- **Release numbers after 0.2.0.** Not yet assigned to milestones 4 and 5.
