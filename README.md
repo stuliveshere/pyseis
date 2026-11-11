@@ -38,7 +38,7 @@ To address scale efficiently:
 
 ## Key Features
 
-- **Multi-Format Support**: SEG-Y, SEG-D (Rev 0.0–3.1), Seismic Unix (SU), JavaSeis, and RSF.
+- **Multi-Format Support**: SEG-Y, SEG-D (Rev 0.0–3.1) and Seismic Unix (SU). JavaSeis and RSF are deferred (see [docs/scope.md](docs/scope.md)).
 - **Nested YAML Schemas**: Fully customizable header definitions and manufacturer profiles compiled to NumPy `dtype`s.
 - **In-Memory & Persistent Storage**: Work directly with RAM buffers or save to single-file Parquet datasets.
 - **Gather-Optimized Filtering**: Fast predicate pushdown queries for Shot, CDP, Receiver, and Offset gathers.
@@ -217,8 +217,8 @@ pyseis/
 ├── segy/                  # SEG-Y importer/exporter & header mapping
 ├── segd/                  # SEG-D importer/exporter & multi-revision schemas
 ├── su/                    # Seismic Unix (SU) importer/exporter
-├── javaseis/              # JavaSeis format reader/parser
-├── rsf/                   # RSF (Madagascar) format support
+├── javaseis/              # JavaSeis partial reader (not supported yet; deferred)
+├── rsf/                   # RSF (Madagascar) placeholder (empty; deferred)
 ├── gpkg/                  # GeoPackage GIS spatial exporter
 └── visualization/         # Seismic data viewer & interactive plotting
 ```
@@ -232,3 +232,5 @@ GNU Affero General Public License v3.0
 ## Documentation
 
 For full architectural details and API specification, see [docs/architecture.md](docs/architecture.md).
+
+For project direction and scope, see [docs/scope.md](docs/scope.md). The design issues for the redesign are indexed in [docs/issues/README.md](docs/issues/README.md).
